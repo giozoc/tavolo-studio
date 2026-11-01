@@ -21,7 +21,9 @@ Tavolo TikZ è un **editor visuale per figure TikZ, grafici pgfplots, diagrammi 
 
   * Interprete TikZ scritto da zero in JavaScript (percorsi, nodi, `\foreach`, scope, stili)
   * Motore pgfplots per gli ambienti `axis` e i comandi `\addplot`
+  * Supporto a tikz-uml, alla libreria `automata`, a tikz-cd e a circuitikz, ciascuno con il proprio pannello di inserimento
   * Interfaccia con editor del codice, area di disegno e pannello proprietà
+  * 18 esempi pronti, caricabili dal pulsante **Esempi**
   * Esempi `.tex` compilabili con pdfLaTeX per il confronto con l'anteprima
   * Test automatici con Playwright, tra cui il confronto tra l'anteprima e il PDF compilato
 
@@ -35,7 +37,9 @@ Scrivere figure in TikZ significa di solito modificare un numero, ricompilare, g
 - spostando, ruotando o ridimensionando un elemento sul disegno, l'editor **riscrive solo i numeri interessati**, lasciando intatta la formattazione del codice (a capo, spazi, commenti)
 - gli **ambienti `axis` di pgfplots funzionano davvero**: limiti automatici, griglie, legende, barre, scale logaritmiche, aree tra curve
 - i **testi dei nodi** si modificano dal pannello (corpo, posizione, colore) e si spostano trascinandoli, anche quando stanno dentro un `\draw`
-- il risultato si esporta come **codice TikZ**, **documento `standalone`** con le librerie necessarie, **SVG** o **PNG**
+- **diagrammi UML, automi, diagrammi commutativi e circuiti** si costruiscono anche con un clic, dai pannelli dedicati
+- il risultato si esporta come **codice TikZ**, **documento `standalone`** con i pacchetti e le librerie necessari, **SVG** o **PNG**
+- il codice, i file di dati e la larghezza dei pannelli restano **salvati nel browser** e si ritrovano alla riapertura
 
 > L'anteprima è fedele ma non identica a pdfLaTeX: per la versione finale conviene sempre compilare il codice esportato.
 
@@ -84,13 +88,35 @@ Scrivere figure in TikZ significa di solito modificare un numero, ricompilare, g
 - etichette `R=$R_1$`, `l`, `l_`, `a`, tensioni `v`, `v_`, `v<`, correnti `i`, `i_`, `i<`, poli `*-*`, `o-o`, `-*`, `invert`, `mirror`, `bipoles/length`
 - nodi `ground`, `rground`, `sground`, `vcc`, `vee`, `circ`, `ocirc`, `op amp` (ancore `-`, `+`, `out`), `npn`/`pnp` (`B`, `C`, `E`), `nmos`/`pmos` (`G`, `D`, `S`); anche l'ambiente `circuitikz`
 - pulsante **Circuiti** (tasto `K`): componenti con un clic sui due capi, nodi con un clic sul disegno; il pannello proprietà cambia tipo ed etichetta di ogni componente del percorso
+- collegamenti a più punti (`--` o ad angolo `-|`) che si chiudono su un capo, con doppio clic o con **Invio**; i punti si agganciano ai capi dei componenti e alle ancore dei nodi
+- spostando un componente, i collegamenti e i componenti che vi arrivano lo seguono
 
 **Modifica visuale**
-- strumenti: nodo, linea, freccia (si aggancia ai nodi), rettangolo, cerchio, ellisse, Bézier, mano libera, grafico
-- aggancio alla griglia regolabile; **Alt** per spostare liberamente
-- campi numerici per ogni punto e frecce da tastiera (**Ctrl + frecce**: passo 0,01)
+- strumenti: nodo, linea (doppio clic o **Invio** per finire), freccia (si aggancia ai nodi), rettangolo, cerchio, ellisse, Bézier, mano libera, grafico `axis`
+- aggancio alla griglia con passo da 1 cm a 1 mm; **Alt** per spostare liberamente
+- campi numerici per ogni punto e frecce da tastiera (**Maiusc**: passo ×4, **Ctrl**: passo 0,01)
 - rotazione con maniglia o valore in gradi (`rotate`, `rotate around`)
-- apertura di file `.tex` con più figure, annulla e ripeti, tema chiaro e scuro
+- **doppio clic** su un nodo per modificarne il testo direttamente sul disegno
+- duplica (**Ctrl + D**), elimina, annulla e ripeti
+- zoom con la rotella (o **Ctrl** + rotella, o con due dita sugli schermi tattili), spostamento della vista con **Spazio** + trascina, adattamento alla figura
+- livelli `pgfonlayer` per gli elementi di sfondo
+
+**Editor del codice**
+- evidenziazione della sintassi, numeri di riga, posizione del cursore
+- completamento automatico di comandi (`\draw`, `\addplot`, `\begin{…}` con il relativo `\end`, …) e di opzioni dentro `[…]`
+- **Alt + ↑/↓** su un numero lo aumenta o lo diminuisce (passo 0,1; con **Maiusc** passo 1); **Alt + trascina** su un numero lo fa scorrere col mouse
+- rientro automatico con **Invio** e **Tab**
+- avvisi sotto il codice per i comandi non supportati o con errori, senza interrompere il resto della figura
+- divisore trascinabile tra codice e disegno
+
+**File ed esportazione**
+- apertura di file `.tex`, `.tikz`, `.pgf` (pulsante **Apri** o trascinamento); se il file contiene più `tikzpicture`, un menu permette di scegliere la figura
+- **Esporta**: copia del solo codice TikZ, copia di un documento `standalone` completo (con `tikz-uml`, `tikz-cd`, `circuitikz`, `amssymb` e le librerie usate), download dell'**SVG** e anteprima **PNG** ad alta risoluzione da salvare con il clic destro; se la figura legge file di dati, l'esportazione lo ricorda
+- tema chiaro e scuro
+
+**Esempi integrati**
+
+Funzioni, barre, area tra curve e scala logaritmica (pgfplots), diagramma a blocchi, geometria, grafo, automa, albero, matrice, onde con `\foreach`, classi, stati, sequenza e componenti (tikz-uml), diagramma commutativo (tikz-cd), circuito RLC (circuitikz), dati da CSV. Un esempio sostituisce il codice attuale, ma si torna indietro con **Ctrl + Z**.
 
 ---
 
@@ -99,7 +125,9 @@ Scrivere figure in TikZ significa di solito modificare un numero, ricompilare, g
 - **Linguaggio**: JavaScript (ES2020), senza framework né dipendenze da installare
 - **Rendering**: SVG generato direttamente dal codice TikZ
 - **Testo matematico**: [MathJax 3](https://www.mathjax.org/) (caricato da CDN)
-- **Interfaccia**: HTML e CSS, con temi chiaro e scuro
+- **Interfaccia**: HTML e CSS, con temi chiaro e scuro; caratteri da Google Fonts
+- **Memoria locale**: `localStorage` per il codice, i file di dati e la disposizione
+- **Test**: Python con [Playwright](https://playwright.dev/python/) e [PyMuPDF](https://pymupdf.readthedocs.io/)
 - **Pubblicazione**: GitHub Pages (sito statico)
 
 ---
@@ -109,11 +137,14 @@ Scrivere figure in TikZ significa di solito modificare un numero, ricompilare, g
 L'editor elabora il codice in una **pipeline a fasi**, rieseguita a ogni modifica:
 
 1. **Scansione** – individua le figure `tikzpicture` nel sorgente e il preambolo (`\definecolor`, `\tikzset`, …)
-2. **Interpretazione** – esegue i comandi TikZ, espande `\foreach` e stili, valuta le espressioni pgfmath
+2. **Interpretazione** – esegue i comandi TikZ, espande `\foreach`, macro e stili, valuta le espressioni pgfmath
 3. **Geometria** – calcola percorsi, nodi, ancore e frecce in coordinate di pagina
-4. **pgfplots** – per ogni `axis` raccoglie i dati, calcola limiti e tick, poi disegna grafici e legenda
-5. **Rendering** – produce l'SVG e registra, per ogni elemento, la posizione dei numeri nel sorgente
-6. **Modifica inversa** – quando trascini un elemento, converte la nuova posizione in coordinate e riscrive solo quei numeri
+4. **pgfplots** – per ogni `axis` raccoglie i dati (anche dai file caricati), calcola limiti e tick, poi disegna grafici e legenda
+5. **Pacchetti** – tikz-uml, `automata`, tikz-cd e circuitikz traducono i propri comandi e ambienti in nodi e percorsi TikZ, che seguono poi la stessa strada
+6. **Rendering** – produce l'SVG e registra, per ogni elemento, la posizione dei numeri nel sorgente
+7. **Modifica inversa** – quando trascini un elemento, converte la nuova posizione in coordinate e riscrive solo quei numeri
+
+I pannelli (UML, automi, tikz-cd, circuiti) non hanno un modello proprio: inseriscono o modificano righe di codice, e il disegno si aggiorna rieseguendo la pipeline.
 
 ---
 
@@ -145,8 +176,13 @@ tavolo-tikz/
 │   ├── 18-automata-palette.js  # pannello degli automi
 │   ├── 19-cd-palette.js        # pannello di tikz-cd
 │   └── 20-circuit-palette.js   # pannello dei circuiti
-├── esempi/                     # figure .tex compilabili con pdfLaTeX (e i loro file di dati)
-├── tests/                      # test con Playwright e confronto con pdflatex
+├── esempi/                     # figure .tex compilabili con pdfLaTeX (e misure.csv)
+├── tests/
+│   ├── harness.py              # apre l'editor in Chromium headless, senza server
+│   ├── test_ui.py              # scenari d'uso con mouse e tastiera
+│   ├── test_pdflatex.py        # confronto tra anteprima e PDF compilato
+│   ├── baseline.json           # punteggi di riferimento per esempio
+│   └── requirements.txt        # playwright, pymupdf
 ├── docs/
 │   └── anteprima.png           # immagine del README
 └── LICENSE
@@ -182,7 +218,7 @@ tavolo-tikz/
    pdflatex funzioni-pgfplots.tex
 ```
 
-   `uml-classi.tex`, `uml-sequenza.tex` e `uml-componenti.tex` richiedono `tikz-uml.sty` nella stessa cartella o nel proprio albero TeX.
+   Gli esempi coprono pgfplots (`funzioni-pgfplots`, `barre`, `area-tra-curve`, `logaritmico`, `dati-csv` con `misure.csv`), automi (`automa`), tikz-cd (`diagramma-commutativo`, `pullback`), circuitikz (`circuito-rlc`, `amplificatore`) e tikz-uml. `uml-classi.tex`, `uml-sequenza.tex` e `uml-componenti.tex` richiedono `tikz-uml.sty` nella stessa cartella o nel proprio albero TeX.
 
 ---
 
@@ -195,7 +231,10 @@ python3 -m pip install -r tests/requirements.txt
 python3 -m playwright install chromium
 python3 tests/test_ui.py         # scenari d'uso con mouse e tastiera
 python3 tests/test_pdflatex.py   # confronto tra anteprima e PDF compilato
+python3 tests/test_pdflatex.py barre logaritmico   # solo alcuni esempi
 ```
+
+Servono `pdflatex` nel `PATH` e, per il confronto, PyMuPDF (in `requirements.txt`). I test servono i file del progetto direttamente al browser, senza avviare un server; MathJax arriva dal CDN, oppure da una copia locale indicando con `LOCAL_LIBS` una cartella `node_modules` che contiene `mathjax` (utile senza rete).
 
 `test_pdflatex.py` compila ogni esempio di `esempi/` con pdflatex, rasterizza il PDF e l'SVG esportato dall'editor alla stessa scala e misura quanto i tratti dei due disegni coincidono (e quanto differiscono le dimensioni). I punteggi di riferimento stanno in `tests/baseline.json`: se una modifica peggiora un esempio la prova fallisce, e in `tests/out/` resta l'immagine sovrapposta (PDF in blu, anteprima in rosso). Dopo un miglioramento voluto, `python3 tests/test_pdflatex.py --update` aggiorna il riferimento. Gli esempi che non compilano (per esempio quelli UML senza `tikz-uml.sty`) vengono saltati.
 
@@ -210,20 +249,26 @@ python3 tests/test_pdflatex.py   # confronto tra anteprima e PDF compilato
 | Alt + trascina | Sposta o ruota senza aggancio alla griglia |
 | Canc | Elimina l'elemento selezionato |
 | Ctrl + D | Duplica |
-| Ctrl + Z / Ctrl + Maiusc + Z | Annulla / Ripeti |
+| Ctrl + Z / Ctrl + Maiusc + Z (o Ctrl + Y) | Annulla / Ripeti |
+| Esc | Termina la linea in corso, torna allo strumento Seleziona, deseleziona |
+| Invio | Termina la linea o il collegamento in corso |
+| Doppio clic su un nodo | Modifica il testo sul disegno |
 | `U` | Apre o chiude il pannello degli elementi UML |
 | `M` | Apre o chiude il pannello degli automi |
 | `D` | Apre o chiude il pannello di tikz-cd |
 | `K` | Apre o chiude il pannello dei circuiti |
 | `0` | Adatta la vista alla figura |
+| `+` / `-` | Ingrandisci / Riduci |
 | Spazio + trascina | Sposta la vista |
-| Alt + ↑/↓ nel codice | Aumenta o diminuisce il numero sotto il cursore |
+| Alt + ↑/↓ nel codice | Aumenta o diminuisce il numero sotto il cursore (Maiusc: passo 1) |
+| Alt + trascina nel codice | Fa scorrere il numero sotto il mouse |
+| Tab nel codice | Rientro, o conferma del completamento automatico |
 
 ---
 
 ## Limiti Noti
 
-Non sono ancora supportati l'operazione `let`, i grafici 3D (`\addplot3`), `groupplot` e le decorazioni: in questi casi l'editor mostra un avviso e prosegue con il resto della figura. I file di dati vanno caricati nell'editor: il browser non può leggere da solo i file accanto al `.tex`.
+Non sono ancora supportati l'operazione `let`, i `pic`, le decorazioni, i grafici 3D (`\addplot3`), `groupplot`, `node foreach` e `child foreach`, le macro con argomenti (`\newcommand` con `[n]`) e i sistemi di coordinate diversi da quelli comuni: in questi casi l'editor mostra un avviso e prosegue con il resto della figura. I file di dati vanno caricati nell'editor: il browser non può leggere da solo i file accanto al `.tex`.
 
 Di circuitikz sono disegnati i componenti più comuni, con le misure del pacchetto; quelli mancanti producono un avviso. Le frecce di tikz-cd usano le punte di TikZ al posto di quelle Computer Modern.
 
