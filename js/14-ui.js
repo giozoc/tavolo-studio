@@ -65,16 +65,59 @@ function renderNow(){
   if (selStart!==null && !lastR.stmts.some(s=>s.start===selStart)) { selStart = prevIdx>=0 && lastR.stmts.length===prevN ? lastR.stmts[prevIdx].start : null; }
   updateHL(); drawOverlay(); updateMsgs(ms); updateProps();
 }
+/* ---------- figure del file ----------
+   Con più figure nel sorgente l'elenco a sinistra le mostra in miniatura: un clic sceglie quella da disegnare
+   e porta il codice al suo inizio, Alt+PagSu e Alt+PagGiù passano alla precedente e alla successiva. */
+let thumbT=null;
+const thumbCache=new Map();
 function updateFigSel(){
-  const fs=$('figsel');
-  if (figs.length>1){
-    fs.hidden=false;
-    const want = figs.map((f,k)=>`Figura ${k+1} · riga ${lineOfSrc(f.s)}`).join('|');
-    if (fs.dataset.k!==want){ fs.innerHTML = figs.map((f,k)=>`<option value="${k}">Figura ${k+1} · riga ${lineOfSrc(f.s)}</option>`).join(''); fs.dataset.k=want; }
-    fs.value=String(Math.min(figIdx,figs.length-1));
-  } else fs.hidden=true;
+  const box=$('flist'), many=figs.length>1;
+  box.hidden=!many;
+  if (!many) return;
+  const want = figs.map(f=>lineOfSrc(f.s)).join('|');
+  if (box.dataset.k!==want){
+    $('fl-n').textContent=figs.length;
+    $('fl-items').innerHTML = figs.map((f,k)=>`<button class="fi" data-k="${k}" title="Figura ${k+1} · riga ${lineOfSrc(f.s)}"><span class="fn">${k+1}</span><span class="fv"></span></button>`).join('');
+    box.dataset.k=want;
+  }
+  const cur=Math.min(figIdx,figs.length-1);
+  $('fl-items').querySelectorAll('.fi').forEach(b=>b.classList.toggle('on', +b.dataset.k===cur));
+  clearTimeout(thumbT); thumbT=setTimeout(thumbs, 350);
 }
-$('figsel').addEventListener('change', e=>{ figIdx=+e.target.value; selStart=null; renderNow(); fitView(); });
+/* il rendering usa lo stato globale: per le miniature lo si salva e poi si rimette quello della figura corrente.
+   Gli id delle definizioni prendono un prefisso, perché nella pagina non si scontrino con quelli del disegno */
+function thumbs(){
+  if (figs.length<2) return;
+  const pre = figs.reduceRight((t,f)=>t.slice(0,f.s)+t.slice(f.e), src)+'\u0001'+(window.__mjReady?1:0)+'\u0001'+Object.keys(DATA).join(',');
+  const saved={S, R, DEFS, DEFN, userColors, CZ}, used=new Set();
+  try {
+    figs.forEach((f,k)=>{
+      const el=$('fl-items').querySelector(`[data-k="${k}"] .fv`); if (!el) return;
+      const key=src.slice(f.s,f.e)+'\u0001'+pre; used.add(key);
+      let svg=thumbCache.get(key);
+      if (!svg){
+        let out=''; try { out=renderFigure(src, f); } catch(e){}
+        out = out.replace(/\bid="([^"]+)"/g, `id="fl${k}-$1"`).replace(/url\(#([^)]+)\)/g, `url(#fl${k}-$1)`).replace(/href="#([^"]+)"/g, `href="#fl${k}-$1"`);
+        el.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><g>${out}</g></svg>`;
+        let bb=null; try { bb=el.querySelector('g').getBBox(); } catch(e){}
+        if (bb && (bb.width||bb.height)){ const m=Math.max(bb.width,bb.height)*.04+.05; el.firstChild.setAttribute('viewBox', `${bb.x-m} ${bb.y-m} ${bb.width+2*m} ${bb.height+2*m}`); }
+        svg=el.innerHTML; thumbCache.set(key, svg);
+      } else if (el.innerHTML!==svg) el.innerHTML=svg;
+    });
+  } finally { ({S, R, DEFS, DEFN, userColors, CZ} = saved); }
+  for (const k of thumbCache.keys()) if (!used.has(k)) thumbCache.delete(k);
+}
+function selectFig(k){
+  if (figs.length<2) return;
+  k=clamp(k, 0, figs.length-1); if (k===Math.min(figIdx,figs.length-1)) return;
+  figIdx=k; selStart=null; renderNow(); fitView();
+  const p=figs[k].s; ed.setSelectionRange(p,p); scrollEdTo(p); updatePos();
+  $('fl-items').querySelector('.fi.on')?.scrollIntoView({block:'nearest'});
+}
+$('fl-items').addEventListener('click', e=>{ const b=e.target.closest('.fi'); if (b) selectFig(+b.dataset.k); });
+document.addEventListener('keydown', e=>{
+  if (e.altKey && !e.ctrlKey && !e.metaKey && (e.key==='PageUp'||e.key==='PageDown') && figs.length>1){ e.preventDefault(); e.stopPropagation(); selectFig(Math.min(figIdx,figs.length-1)+(e.key==='PageUp'?-1:1)); }
+}, true);
 function updateMsgs(ms){
   const w = lastR.warns;
   const box=$('msgs');

@@ -51,6 +51,18 @@ select.tb{background:var(--panel2);border:1px solid var(--line);max-width:190px}
 /* corpo */
 #main{flex:1;display:flex;min-height:0}
 #left{width:42%;min-width:260px;display:flex;flex-direction:column;background:var(--panel);border-right:1px solid var(--line);min-height:0}
+/* figure del file */
+#flist{width:200px;flex:none;display:flex;flex-direction:column;background:var(--panel);border-right:1px solid var(--line);min-height:0}
+#flist[hidden]{display:none}
+#flist .tag{font:10.5px var(--f-code);letter-spacing:0;background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:0 5px;color:var(--ink)}
+#fl-items{flex:1;overflow:auto;padding:8px;display:flex;flex-direction:column;gap:6px;scrollbar-width:thin}
+.fi{position:relative;display:flex;gap:6px;align-items:stretch;border:1px solid var(--line);background:var(--panel2);border-radius:7px;padding:5px;text-align:left;flex:none}
+.fi:hover{border-color:var(--accent)}
+.fi.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.fi .fn{font:11px var(--f-code);color:var(--muted);min-width:16px;text-align:right;padding-top:2px}
+.fi.on .fn{color:var(--accent);font-weight:600}
+.fi .fv{flex:1;min-width:0;height:84px;background:var(--paper);color:#1a2130;border-radius:5px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:4px}
+.fi .fv svg{width:100%;height:100%}
 #split{width:6px;cursor:col-resize;background:transparent;margin-left:-3px;margin-right:-3px;z-index:3}
 #split:hover{background:var(--accent);opacity:.3}
 #right{flex:1;position:relative;min-width:0;background:var(--bg)}
@@ -175,6 +187,9 @@ table.dt td:last-child{text-align:right;white-space:nowrap}
   #left{width:auto!important;min-width:0;height:44vh;border-right:0;border-bottom:1px solid var(--line);order:2}
   #right{height:56vh;flex:none;order:1}
   #split{display:none}
+  #flist{width:auto;order:0;max-height:24vh;border-right:0;border-bottom:1px solid var(--line)}
+  #fl-items{flex-direction:row;overflow-x:auto;overflow-y:hidden}
+  .fi{width:150px}
   .palpane{width:auto;height:30vh;order:3;border-right:0;border-top:1px solid var(--line)}
   #props{width:auto;left:max(10px,env(safe-area-inset-left,0px));top:auto;bottom:48px;max-height:45%}
   .tb .lbl{display:none}

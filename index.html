@@ -41,7 +41,6 @@
     <select class="tb" id="snapstep" title="Passo di aggancio" aria-label="Passo di aggancio"><option value="1">1 cm</option><option value="0.5">0,5 cm</option><option value="0.25" selected>0,25 cm</option><option value="0.1">1 mm</option></select>
   </div>
   <div class="sp"></div>
-  <select class="tb" id="figsel" title="Figura" aria-label="Figura" hidden></select>
   <div class="grp">
     <button class="tb" id="b-open" title="Apri file .tex o .tikz"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h4l1.5 1.5H14V13H2z"/></svg><span class="lbl">Apri</span></button>
     <button class="tb" id="b-data" title="File di dati (CSV) accanto al .tex"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2.5" width="12" height="11" rx="1"/><path d="M2 6h12M2 9.5h12M6.5 2.5v11"/></svg><span class="lbl">Dati</span></button>
@@ -52,6 +51,10 @@
   <input type="file" id="file" accept=".tex,.tikz,.txt,.pgf,.csv,.dat,.tsv" multiple hidden>
 </header>
 <div id="main">
+  <aside id="flist" hidden aria-label="Figure del file">
+    <div class="pane-h"><span>Figure</span><span class="tag" id="fl-n"></span></div>
+    <div id="fl-items"></div>
+  </aside>
   <aside id="umlpal" class="palpane" hidden aria-label="Elementi UML">
     <div class="pane-h"><span>Elementi UML</span><span class="sp"></span><button class="pmin" id="umlpal-x" title="Chiudi il pannello" aria-label="Chiudi il pannello UML">×</button></div>
     <div id="umlpal-b" class="palpane-b"></div>

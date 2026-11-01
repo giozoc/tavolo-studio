@@ -110,7 +110,7 @@ Scrivere figure in TikZ significa di solito modificare un numero, ricompilare, g
 - divisore trascinabile tra codice e disegno
 
 **File ed esportazione**
-- apertura di file `.tex`, `.tikz`, `.pgf` (pulsante **Apri** o trascinamento); se il file contiene più `tikzpicture`, un menu permette di scegliere la figura
+- apertura di file `.tex`, `.tikz`, `.pgf` (pulsante **Apri** o trascinamento); se il file contiene più figure, l'elenco **Figure** a sinistra le mostra in miniatura: un clic porta la figura nel disegno e il codice al suo inizio; **Alt+PagSu** e **Alt+PagGiù** passano alla precedente e alla successiva
 - **Esporta**: copia del solo codice TikZ, copia di un documento `standalone` completo (con `tikz-uml`, `tikz-cd`, `circuitikz`, `amssymb` e le librerie usate), download dell'**SVG** e anteprima **PNG** ad alta risoluzione da salvare con il clic destro; se la figura legge file di dati, l'esportazione lo ricorda
 - tema chiaro e scuro
 
@@ -257,6 +257,7 @@ Servono `pdflatex` nel `PATH` e, per il confronto, PyMuPDF (in `requirements.txt
 | `M` | Apre o chiude il pannello degli automi |
 | `D` | Apre o chiude il pannello di tikz-cd |
 | `K` | Apre o chiude il pannello dei circuiti |
+| Alt+PagSu / Alt+PagGiù | Figura precedente / successiva del file |
 | `0` | Adatta la vista alla figura |
 | `+` / `-` | Ingrandisci / Riduci |
 | Spazio + trascina | Sposta la vista |
