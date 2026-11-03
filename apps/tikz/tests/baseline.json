@@ -1,0 +1,12 @@
+{
+  "amplificatore": 1.0,
+  "area-tra-curve": 0.941,
+  "automa": 0.999,
+  "barre": 0.96,
+  "circuito-rlc": 0.825,
+  "dati-csv": 0.93,
+  "diagramma-commutativo": 1.0,
+  "funzioni-pgfplots": 0.359,
+  "logaritmico": 0.76,
+  "pullback": 0.999
+}

@@ -1,0 +1,12 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{circuitikz}
+\begin{document}
+\begin{circuitikz}
+  \draw (0,0) to[V, v=$V_s$] (0,3)
+        to[R=$R_1$, i=$i$] (3,3)
+        to[L=$L$] (6,3)
+        to[C=$C$] (6,0) -- (0,0);
+  \draw (3,3) to[R=$R_2$, *-*] (3,0);
+  \draw (3,0) node[ground]{};
+\end{circuitikz}
+\end{document}

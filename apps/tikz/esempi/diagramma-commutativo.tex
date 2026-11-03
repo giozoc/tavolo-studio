@@ -1,0 +1,8 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{tikz-cd}
+\begin{document}
+\begin{tikzcd}[column sep=large, row sep=large]
+  A \arrow[r, "f"] \arrow[d, "g"'] \arrow[dr, dashed, "h" description] & B \arrow[d, "k"] \\
+  C \arrow[r, hook, "i"'] & D \arrow[r, two heads, "p"] & E \arrow[l, bend right, "s"']
+\end{tikzcd}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{pgfplots,pgfplotstable}
+\pgfplotsset{compat=1.18}
+\pgfplotstableread[col sep=comma]{misure.csv}\misure
+\begin{document}
+\begin{tikzpicture}
+  \begin{axis}[xlabel={ore}, ylabel={$^\circ$C}, grid=major, legend pos=south east, width=9cm, height=6cm]
+    \addplot[blue, thick, mark=*] table[x=tempo, y=temperatura, col sep=comma] {misure.csv};
+    \addlegendentry{temperatura}
+    \addplot[red, dashed, mark=square*] table[x=tempo, y expr=\thisrow{umidita}/2.5] {\misure};
+    \addlegendentry{umidità / 2,5}
+  \end{axis}
+\end{tikzpicture}
+\end{document}

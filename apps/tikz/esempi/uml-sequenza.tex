@@ -1,0 +1,25 @@
+% Richiede tikz-uml.sty: https://perso.ensta-paris.fr/~kielbasi/tikzuml/
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{tikz-uml}
+\begin{document}
+\begin{tikzpicture}
+  \begin{umlseqdiag}
+    \umlactor[x=0, class=Utente]{u}
+    \umlobject[x=3.5, class=Server]{s}
+    \umldatabase[x=7, class=DB]{db}
+    \begin{umlcall}[op=login(), return=token]{u}{s}
+      \begin{umlcall}[op=cerca(id), return=dati]{s}{db}
+      \end{umlcall}
+      \begin{umlcallself}[op=verifica()]{s}
+      \end{umlcallself}
+    \end{umlcall}
+    \begin{umlfragment}[type=alt, label=token valido]
+      \begin{umlcall}[op=richiesta(), return=risposta]{u}{s}
+      \end{umlcall}
+      \umlfpart[altrimenti]
+      \begin{umlcall}[op=errore(), type=asynchron]{s}{u}
+      \end{umlcall}
+    \end{umlfragment}
+  \end{umlseqdiag}
+\end{tikzpicture}
+\end{document}

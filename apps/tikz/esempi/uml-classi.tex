@@ -1,0 +1,23 @@
+% Richiede tikz-uml.sty: https://perso.ensta-paris.fr/~kielbasi/tikzuml/
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{tikz-uml}
+\begin{document}
+\begin{tikzpicture}
+  \begin{umlpackage}{zoo}
+    \umlabstract[x=0, y=0]{Animale}{
+      \# nome : String \\ \# eta : int
+    }{
+      + verso() : void \\ \umlstatic{+ conta() : int}
+    }
+    \umlclass[x=-2.5, y=-3.5]{Cane}{}{+ verso() : void}
+    \umlclass[x=2.5, y=-3.5]{Gatto}{- vite : int}{+ verso() : void}
+  \end{umlpackage}
+  \umlinterface[x=6.5, y=0]{Nutribile}{}{+ mangia(c : Cibo) : void}
+  \umlinherit[geometry=|-|]{Cane}{Animale}
+  \umlinherit[geometry=|-|]{Gatto}{Animale}
+  \umlimpl{Animale}{Nutribile}
+  \umlclass[x=6.5, y=-3.5]{Ciotola}{}{}
+  \umlaggreg[arg2=cibo, mult2=0..*, pos2=0.85]{Ciotola}{Nutribile}
+  \umlnote[x=10, y=-1, width=2.6cm]{Nutribile}{Ogni animale dello zoo deve poter mangiare.}
+\end{tikzpicture}
+\end{document}

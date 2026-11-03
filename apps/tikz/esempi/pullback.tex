@@ -1,0 +1,10 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{amssymb}
+\usepackage{tikz-cd}
+\begin{document}
+\begin{tikzcd}
+  P \arrow[r, "q_2"] \arrow[d, "q_1"'] \arrow[dr, phantom, "\lrcorner", very near start] & Y \arrow[d, "g"] \\
+  X \arrow[r, "f"'] & Z \\
+  X' \arrow[u, Rightarrow, "\alpha"] \arrow[ur, mapsto] & Z' \arrow[u, equal]
+\end{tikzcd}
+\end{document}

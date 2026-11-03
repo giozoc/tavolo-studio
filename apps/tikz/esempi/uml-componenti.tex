@@ -1,0 +1,17 @@
+% Richiede tikz-uml.sty: https://perso.ensta-paris.fr/~kielbasi/tikzuml/
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{tikz-uml}
+\begin{document}
+\begin{tikzpicture}
+  \begin{umlcomponent}[x=0, y=0]{Applicazione}
+    \umlbasiccomponent[x=0, y=0]{Interfaccia utente}
+    \umlbasiccomponent[x=4.5, y=0]{Logica}
+  \end{umlcomponent}
+  \umlbasiccomponent[x=10, y=0]{Archivio}
+  \umlassemblyconnector[interface=Servizi]{Interfaccia utente}{Logica}
+  \umlprovidedinterface[interface=Dati, distance=1.2cm]{Archivio}
+  \umlrequiredinterface[interface=Configurazione, distance=1.2cm]{Applicazione}
+  \umlport{Logica}{east}
+  \umldelegateconnector{Logica-east-port}{Archivio}
+\end{tikzpicture}
+\end{document}
