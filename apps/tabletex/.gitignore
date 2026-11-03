@@ -1,0 +1,3 @@
+tests/fuzz_out.json
+tests/__pycache__/
+tests/ui.png

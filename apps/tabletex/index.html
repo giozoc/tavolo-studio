@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tavolo TableTeX</title>
+<meta name="description" content="Editor bidirezionale di tabelle LaTeX: tabular, booktabs, longtable e tabularx. Modifichi la griglia o il codice, e cambia solo il tratto toccato.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Schibsted+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script>window.MathJax={tex:{packages:{'[+]':[]}},svg:{fontCache:'none'},startup:{typeset:false,ready(){MathJax.startup.defaultReady();MathJax.startup.promise.then(()=>{window.__mjReady=true;window.__onMJ&&window.__onMJ()})}}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" async></script>
+<script src="https://cdn.jsdelivr.net/npm/mathlive@0.111.1/mathlive.min.js" defer></script>
+</head>
+<body>
+<div id="app">
+<header id="top">
+  <div class="brand">Tavolo <b>TableTeX</b></div>
+  <div class="grp">
+    <button class="tb" id="b-undo" title="Annulla (Ctrl+Z)" aria-label="Annulla"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3L2 6l3 3M2 6h8a4 4 0 010 8H6"/></svg></button>
+    <button class="tb" id="b-redo" title="Ripeti (Ctrl+Y o Ctrl+Maiusc+Z)" aria-label="Ripeti"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 3l3 3-3 3M14 6H6a4 4 0 000 8h4"/></svg></button>
+  </div>
+  <div class="sp"></div>
+  <div class="grp">
+    <button class="tb" id="b-open" title="Apri un file .tex (le tabelle compaiono in una lista) o un .csv da importare"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h4l1.5 1.5H14V13H2z"/></svg><span class="lbl">Apri</span></button>
+    <button class="tb" id="b-ex" title="Esempi"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2h10v12H3zM6 5h4M6 8h4M6 11h2"/></svg><span class="lbl">Esempi</span></button>
+    <button class="tb" id="b-export" title="Esporta: LaTeX, documento .tex con i pacchetti, CSV, Markdown"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8M5 7l3 3 3-3M3 12v2h10v-2"/></svg><span class="lbl">Esporta</span></button>
+    <button class="tb" id="b-help" title="Scorciatoie da tastiera (F1)" aria-label="Scorciatoie"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1.5" y="4" width="13" height="8" rx="1.5"/><path d="M4 7h1M7 7h2M11 7h1M5 9.5h6"/></svg></button>
+    <button class="tb" id="b-theme" title="Tema chiaro/scuro" aria-label="Tema chiaro o scuro"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.5"/><path d="M8 2.5v11A5.5 5.5 0 018 2.5z" fill="currentColor"/></svg></button>
+  </div>
+  <button class="tb pri" id="b-copy" title="Copia il codice LaTeX (Ctrl+Maiusc+C)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="8.5" height="9" rx="1.2"/><path d="M3 11V2.5h7.5"/></svg><span class="lbl">Copia LaTeX</span></button>
+  <input type="file" id="file" accept=".tex,.txt,.ltx,.csv,.tsv,.dat" hidden>
+</header>
+
+<nav id="ribbon" aria-label="Strumenti per le tabelle">
+  <div class="rsec">
+    <div class="rbody">
+      <button class="big" id="b-new" title="Nuova tabella: scegli righe e colonne"><span class="bi"><svg viewBox="0 0 34 26" width="34" height="26"><rect x="1.5" y="1.5" width="31" height="23" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 9h31M1.5 16.5h31M12 1.5v23M22.5 1.5v23" stroke="currentColor" stroke-width="1"/><path d="M27 18v6M24 21h6" stroke="var(--accent)" stroke-width="1.8"/></svg></span><span class="bl">Nuova <i class="dd"></i></span></button>
+      <button class="big" id="b-import" title="Importa dati da CSV, Excel o LibreOffice (anche incollati)"><span class="bi"><svg viewBox="0 0 34 26" width="34" height="26"><path d="M4 2h17l6 6v16H4z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 11h14M8 15h14M8 19h10" stroke="currentColor" stroke-width="1"/><text x="20" y="9" font-size="6" font-family="monospace" fill="var(--accent)">csv</text></svg></span><span class="bl">Importa</span></button>
+      <div class="rcol">
+        <label class="rlab" for="envsel">Ambiente</label>
+        <select class="tb" id="envsel" title="Ambiente della tabella: cambia solo \begin e \end">
+          <option value="tabular">tabular</option>
+          <option value="tabular*">tabular*</option>
+          <option value="tabularx">tabularx</option>
+          <option value="longtable">longtable</option>
+          <option value="NiceTabular">NiceTabular</option>
+          <option value="tblr">tblr</option>
+        </select>
+        <button class="rsm" data-pop="style" title="Converti lo stile delle regole: booktabs, griglia, senza regole"><span class="ric">≡</span>Stile <i class="dd"></i></button>
+      </div>
+      <div class="rcol">
+        <button class="rsm" data-act="transpose" title="Scambia le righe con le colonne"><span class="ric">⤡</span>Trasponi</button>
+        <button class="rsm" data-act="endhead" title="longtable: le righe selezionate si ripetono in cima a ogni pagina (\endhead); di nuovo per toglierlo"><span class="ric">⇞</span>Intestazione</button>
+        <button class="rsm" id="b-find" title="Cerca e sostituisci nelle celle (Ctrl+H)"><span class="ric">⌕</span>Cerca</button>
+      </div>
+    </div>
+    <div class="rname">Tabella</div>
+  </div>
+  <div class="rsec">
+    <div class="rbody">
+      <div class="rcol">
+        <button class="rsm" id="b-rowup" data-act="rowins-above" title="Inserisci una riga sopra (Ctrl+Maiusc+Su)"><span class="ric">↑</span>Sopra</button>
+        <button class="rsm" id="b-rowdn" data-act="rowins-below" title="Inserisci una riga sotto (Ctrl+Invio)"><span class="ric">↓</span>Sotto</button>
+        <button class="rsm" data-act="rowdel" title="Elimina le righe selezionate (Ctrl+−)"><span class="ric">×</span>Elimina</button>
+      </div>
+      <div class="rcol">
+        <button class="rsm" data-act="rowmove-up" title="Sposta la riga in su (Alt+Su)"><span class="ric">⇡</span>Su</button>
+        <button class="rsm" data-act="rowmove-down" title="Sposta la riga in giù (Alt+Giù)"><span class="ric">⇣</span>Giù</button>
+        <button class="rsm" data-pop="sort" title="Ordina le righe secondo la colonna della cella corrente"><span class="ric">⇅</span>Ordina <i class="dd"></i></button>
+      </div>
+    </div>
+    <div class="rname">Righe</div>
+  </div>
+  <div class="rsec">
+    <div class="rbody">
+      <div class="rcol">
+        <button class="rsm" data-act="colins-left" title="Inserisci una colonna a sinistra"><span class="ric">←</span>Sinistra</button>
+        <button class="rsm" data-act="colins-right" title="Inserisci una colonna a destra"><span class="ric">→</span>Destra</button>
+        <button class="rsm" data-act="coldel" title="Elimina le colonne selezionate"><span class="ric">×</span>Elimina</button>
+      </div>
+      <div class="rcol">
+        <button class="rsm" data-act="colmove-left" title="Sposta la colonna a sinistra (Alt+Sinistra)"><span class="ric">⇠</span>Sposta</button>
+        <button class="rsm" data-act="colmove-right" title="Sposta la colonna a destra (Alt+Destra)"><span class="ric">⇢</span>Sposta</button>
+      </div>
+      <div class="rcol">
+        <span class="rlab">Allineamento</span>
+        <div class="algrp" role="group" aria-label="Allineamento della colonna">
+          <button class="al" data-al="l" title="A sinistra: l">l</button><button class="al" data-al="c" title="Centrato: c">c</button><button class="al" data-al="r" title="A destra: r">r</button><button class="al" data-al="S" title="Numeri allineati sulla virgola: S di siunitx (con table-format calcolato)">S</button><button class="al" data-al="p" title="Paragrafo a larghezza fissa: p{…}">p</button><button class="al" data-al="X" title="Larghezza elastica di tabularx: X">X</button>
+        </div>
+        <div class="algrp cal" role="group" aria-label="Allineamento delle celle selezionate"><span class="rlab">cella</span>
+          <button class="al" data-cal="l" title="Solo le celle selezionate a sinistra: \multicolumn{1}{l}{…}">l</button><button class="al" data-cal="c" title="Solo le celle selezionate centrate: \multicolumn{1}{c}{…}">c</button><button class="al" data-cal="r" title="Solo le celle selezionate a destra: \multicolumn{1}{r}{…}">r</button>
+        </div>
+      </div>
+    </div>
+    <div class="rname">Colonne</div>
+  </div>
+  <div class="rsec">
+    <div class="rbody">
+      <div class="rcol">
+        <button class="rsm" data-act="mergeh" title="Unisci le celle selezionate in orizzontale: \multicolumn (Ctrl+M)"><span class="ric">⇿</span>Unisci</button>
+        <button class="rsm" data-act="mergev" title="Unisci le celle selezionate in verticale: \multirow"><span class="ric">⇳</span>In verticale</button>
+        <button class="rsm" data-act="split" title="Dividi le celle unite"><span class="ric">⊞</span>Dividi</button>
+      </div>
+      <div class="rcol">
+        <div class="rrow">
+          <button class="rsm mini" data-act="bold" title="Grassetto: \textbf{…} (Ctrl+B)" aria-label="Grassetto"><span class="ric"><b>B</b></span></button>
+          <button class="rsm mini" data-act="italic" title="Corsivo: \emph{…} (Ctrl+I)" aria-label="Corsivo"><span class="ric"><i>I</i></span></button>
+          <span class="rlab">Stile del testo</span>
+        </div>
+        <button class="rsm" id="b-formula" data-act="formula" title="Formula nella cella: si apre nell'editor di formule (Ctrl+E)"><span class="ric">∑</span>Formula</button>
+        <button class="rsm" data-pop="color" title="Colore dello sfondo delle celle o delle righe, righe alterne, colore del testo"><span class="ric">◐</span>Colore <i class="dd"></i></button>
+      </div>
+    </div>
+    <div class="rname">Celle</div>
+  </div>
+  <div class="rsec">
+    <div class="rbody">
+      <div class="rcol">
+        <button class="rsm" data-pop="round" title="Stesso numero di decimali nelle colonne selezionate"><span class="ric">.0</span>Decimali <i class="dd"></i></button>
+        <button class="rsm" data-act="max" title="Il valore più alto di ogni colonna selezionata in grassetto"><span class="ric">⤒</span>Massimo</button>
+        <button class="rsm" data-act="min" title="Il valore più basso di ogni colonna selezionata in grassetto"><span class="ric">⤓</span>Minimo</button>
+      </div>
+    </div>
+    <div class="rname">Numeri</div>
+  </div>
+  <div class="rsec">
+    <div class="rbody">
+      <div class="rcol">
+        <button class="rsm" data-pop="ruleabove" title="Regola sopra la selezione"><span class="ric">⎺</span>Sopra <i class="dd"></i></button>
+        <button class="rsm" data-pop="rulebelow" title="Regola sotto la selezione"><span class="ric">⎽</span>Sotto <i class="dd"></i></button>
+      </div>
+      <div class="rcol">
+        <button class="rsm" data-act="cmid" title="Regola parziale sotto la selezione, solo sulle colonne scelte: \cmidrule (\cline senza booktabs)"><span class="ric">⌐</span>Parziale</button>
+        <button class="rsm" data-act="cmidx" title="Togli le regole parziali sotto la selezione"><span class="ric">⌀</span>Togli parziali</button>
+      </div>
+    </div>
+    <div class="rname">Regole</div>
+  </div>
+</nav>
+
+<div id="main">
+  <aside id="tlist" hidden aria-label="Tabelle del file">
+    <div class="pane-h"><span>Tabelle</span><span class="tag" id="tl-n"></span><span class="sp"></span><span id="tl-mod"></span></div>
+    <div id="tl-items"></div>
+    <div class="fl-foot"><span id="tl-name"></span>
+      <button class="pbtn" id="tl-save" title="Scarica il file con le tabelle aggiornate (Ctrl+S)">Scarica</button>
+      <button class="pbtn" id="tl-close" title="Chiudi il documento e lascia la tabella nell'editor" aria-label="Chiudi il documento">×</button></div>
+  </aside>
+  <section id="left" aria-label="Sorgente LaTeX">
+    <div class="pane-h"><span>Sorgente LaTeX</span><span class="sp"></span><span id="pos">r 1, c 1</span>
+      <button class="pbtn" id="b-copy2" title="Copia il sorgente così com'è">Copia</button></div>
+    <div id="edwrap">
+      <div id="gut"></div>
+      <pre id="hl" aria-hidden="true"></pre>
+      <textarea id="ed" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Codice LaTeX della tabella"></textarea>
+      <div id="ac" hidden></div>
+    </div>
+    <div id="msgs" aria-live="polite"></div>
+  </section>
+  <div id="split" aria-hidden="true"></div>
+  <section id="right" aria-label="Griglia">
+    <div id="desk">
+      <div id="sheet">
+        <div class="sheet-h"><span>Tabella</span><span class="tag" id="envtag"></span>
+          <span id="tswitch" hidden><button class="pbtn" id="t-prev" aria-label="Tabella precedente">‹</button><span id="t-of"></span><button class="pbtn" id="t-next" aria-label="Tabella successiva">›</button></span>
+          <span class="sp"></span><span id="gridinfo">doppio clic o Invio per modificare una cella</span></div>
+        <div id="gridbox" tabindex="0" aria-label="Griglia della tabella"><div id="grid"></div>
+          <textarea id="celled" rows="1" hidden spellcheck="false" aria-label="Contenuto della cella"></textarea>
+        </div>
+        <div id="empty" hidden>
+          <p>Nel sorgente non c'è ancora una tabella.</p>
+          <div class="pbtns"><button class="btn pri" id="e-new">Nuova tabella</button><button class="btn" id="e-import">Importa CSV o Excel</button><button class="btn" id="e-ex">Esempi</button></div>
+          <p class="small">Puoi anche incollare qui righe copiate da un foglio di calcolo.</p>
+        </div>
+      </div>
+    </div>
+    <div id="hint"></div>
+    <div id="status"><span id="st-sync">sincronizzato</span><span id="st-msg" class="ok">pronto</span></div>
+    <div id="zoomctl" class="grp">
+      <button class="tb" id="b-zout" title="Riduci" aria-label="Riduci">−</button>
+      <button class="tb" id="b-zfit" title="Dimensione predefinita"><span id="zlab">100%</span></button>
+      <button class="tb" id="b-zin" title="Ingrandisci" aria-label="Ingrandisci">+</button>
+    </div>
+  </section>
+</div>
+</div>
+<div id="pop" hidden role="dialog"></div>
+<div id="fpop" hidden role="dialog" aria-label="Formula della cella">
+  <div class="fp-h"><span>Formula</span><span class="tag" id="fp-where"></span><span class="sp"></span>
+    <button class="pbtn" id="fp-mt" title="Apri la formula in Tavolo MathTeX: le modifiche tornano in questa cella">Apri in Tavolo MathTeX ↗</button></div>
+  <div id="fp-mfbox"></div>
+  <textarea id="fp-src" spellcheck="false" aria-label="Codice della formula"></textarea>
+  <div class="fp-f"><span id="fp-st"></span><span class="sp"></span><button class="btn" id="fp-x">Annulla</button><button class="btn pri" id="fp-ok">Applica</button></div>
+</div>
+<div id="modal" hidden><div class="box"><h2><span id="m-t"></span><button class="btn" id="m-x">Chiudi</button></h2><div class="bd" id="m-b"></div></div></div>
+<div id="toast"></div>
+<div id="drop" hidden>Rilascia il file .tex o .csv</div>
+<script src="js/01-core.js"></script>
+<script src="js/02-scan.js"></script>
+<script src="js/03-model.js"></script>
+<script src="js/04-ops.js"></script>
+<script src="js/05-editor.js"></script>
+<script src="js/06-render.js"></script>
+<script src="js/07-grid.js"></script>
+<script src="js/08-ribbon.js"></script>
+<script src="js/09-paste.js"></script>
+<script src="js/10-formula.js"></script>
+<script src="js/11-document.js"></script>
+<script src="js/12-panel.js"></script>
+<script src="js/13-tools.js"></script>
+</body>
+</html>

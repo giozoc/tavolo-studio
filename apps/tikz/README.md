@@ -1,11 +1,13 @@
 # Tavolo TikZ
 
-[![Demo](https://img.shields.io/badge/demo-online-blue)](https://giozoc.github.io/tavolo-tikz/)
+[![Demo](https://img.shields.io/badge/demo-online-blue)](https://giozoc.github.io/tavolo-studio/#tikz)
 [![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-blue)](#stack-tecnologico)
 [![LaTeX](https://img.shields.io/badge/TikZ%20%7C%20pgfplots%20%7C%20tikz--cd%20%7C%20circuitikz-supportati-blue)](#funzionalità)
 [![Licenza](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](#licenza)
 
 ![Anteprima di Tavolo TikZ](docs/anteprima.png)
+
+> Fa parte di [**Tavolo Studio**](../../README.md), insieme agli altri editor della famiglia: si apre dalla scheda *TikZ* di <https://giozoc.github.io/tavolo-studio/>, oppure da solo da `apps/tikz/index.html`.
 
 ---
 
@@ -15,7 +17,7 @@ Tavolo TikZ è un **editor visuale per figure TikZ, grafici pgfplots, diagrammi 
 
 - **Demo online**
   L'editor pubblicato con GitHub Pages:
-  👉 <https://giozoc.github.io/tavolo-tikz/>
+  👉 <https://giozoc.github.io/tavolo-studio/#tikz>
 
 - **Contenuto del repository**:
 
@@ -151,7 +153,7 @@ I pannelli (UML, automi, tikz-cd, circuiti) non hanno un modello proprio: inseri
 ## Struttura del Repository
 
 ```text
-tavolo-tikz/
+apps/tikz/
 ├── index.html                  # pagina principale
 ├── css/
 │   └── style.css               # stile e temi chiaro/scuro
@@ -192,15 +194,15 @@ tavolo-tikz/
 
 ## Avvio
 
-**Online**: apri <https://giozoc.github.io/tavolo-tikz/>.
+**Online**: apri <https://giozoc.github.io/tavolo-studio/#tikz> (scheda *TikZ* di Tavolo Studio).
 
 **In locale**:
 
-1. Clona il repository:
+1. Clona il repository di Tavolo Studio ed entra nella cartella dell'editor:
 
 ```bash
-   git clone https://github.com/giozoc/tavolo-tikz.git
-   cd tavolo-tikz
+   git clone https://github.com/giozoc/tavolo-studio.git
+   cd tavolo-studio/apps/tikz
 ```
 
 2. Avvia un server statico e apri il browser su `http://localhost:8000`:

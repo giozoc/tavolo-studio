@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tavolo Studio</title>
+<meta name="description" content="Editor visuali per LaTeX nel browser: figure TikZ e pgfplots, formule e tabelle, con il codice e la vista sincronizzati nei due sensi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Schibsted+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,600&display=swap">
+<link rel="stylesheet" href="css/studio.css">
+</head>
+<body>
+<header id="bar">
+  <button class="brand" id="s-home" title="Pagina iniziale di Tavolo Studio">Tavolo <b>Studio</b></button>
+  <nav class="tabs" role="tablist" aria-label="Editor">
+    <button class="tab" role="tab" data-app="tikz" aria-selected="false" title="Figure TikZ e pgfplots"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 13l5-8 3 5 4-7"/></svg>TikZ</button>
+    <button class="tab" role="tab" data-app="mathtex" aria-selected="false" title="Formule"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3H4l4 5-4 5h8"/></svg>MathTeX<i class="dot" title="Sta modificando una formula di TableTeX"></i></button>
+    <button class="tab" role="tab" data-app="tabletex" aria-selected="false" title="Tabelle"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="1"/><path d="M2 6.5h12M2 10h12M7 3v10"/></svg>TableTeX</button>
+  </nav>
+  <span class="sp"></span>
+  <button class="tb" id="s-theme" title="Tema chiaro/scuro (per tutti gli editor)" aria-label="Tema chiaro o scuro"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.5"/><path d="M8 2.5v11A5.5 5.5 0 018 2.5z" fill="currentColor"/></svg></button>
+</header>
+
+<main id="home" hidden>
+  <h1>Tavolo <b>Studio</b></h1>
+  <p class="lead">Tre editor per LaTeX che funzionano nel browser, senza installare nulla: il codice a sinistra, la figura, la formula o la tabella a destra, sincronizzati nei due sensi.</p>
+  <div class="cards">
+    <button class="card" data-app="tikz">
+      <span class="ci"><svg viewBox="0 0 40 30"><path d="M3 26L14 8l7 11 9-15 7 10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="14" cy="8" r="2.2" fill="var(--accent)"/><circle cx="30" cy="4" r="2.2" fill="var(--accent)"/></svg></span>
+      <span class="ct">Tavolo <b>TikZ</b></span>
+      <span class="cd">Figure TikZ e grafici pgfplots: disegni, sposti e ruoti gli elementi e il codice si aggiorna. Anche UML, automi, tikz-cd e circuitikz.</span>
+    </button>
+    <button class="card" data-app="mathtex">
+      <span class="ci"><svg viewBox="0 0 40 30"><text x="20" y="22" text-anchor="middle" font-size="20" font-family="Georgia,serif" font-style="italic" fill="currentColor">∑<tspan fill="var(--accent)">x</tspan>²</text></svg></span>
+      <span class="ct">Tavolo <b>MathTeX</b></span>
+      <span class="cd">Formule: scrivi il codice o modifichi la formula direttamente, con simboli, strutture, macro personali e tutte le formule di un file.</span>
+    </button>
+    <button class="card" data-app="tabletex">
+      <span class="ci"><svg viewBox="0 0 40 30"><rect x="3" y="3" width="34" height="24" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h34M3 18.5h34M15 3v24M26 3v24" stroke="currentColor" stroke-width="1"/><path d="M3 10h34" stroke="var(--accent)" stroke-width="2"/></svg></span>
+      <span class="ct">Tavolo <b>TableTeX</b></span>
+      <span class="cd">Tabelle: tabular, booktabs, longtable e tabularx come in un foglio di calcolo. Le formule delle celle si aprono in MathTeX.</span>
+    </button>
+  </div>
+  <p class="small">Ogni editor salva da solo il lavoro in questo browser. I file .tex si aprono con «Apri» o trascinandoli nella finestra.</p>
+</main>
+
+<div id="frames"></div>
+<script src="js/studio.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+/* ============ TAVOLO STUDIO: la cornice con le schede degli editor ============
+   Stessi colori e caratteri dei tre editor (vedi apps/*/css/style.css) */
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+:root{
+  color-scheme:light;
+  --bg:#e9ecf1; --panel:#f8f9fb; --panel2:#eff1f5; --ink:#1a2130; --muted:#657086; --line:#d3d8e1;
+  --accent:#2453c4; --accent-ink:#fff; --sel:#e2600b;
+  --f-ui:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-code:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --f-disp:"Fraunces",Georgia,serif;
+  --r:7px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101319; --panel:#181c24; --panel2:#1f242e; --ink:#e2e6ee; --muted:#8a93a6; --line:#2c323e;
+  --accent:#7ea4ff; --accent-ink:#0c1222; --sel:#ff8a3d;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101319; --panel:#181c24; --panel2:#1f242e; --ink:#e2e6ee; --muted:#8a93a6; --line:#2c323e;
+  --accent:#7ea4ff; --accent-ink:#0c1222; --sel:#ff8a3d;
+  color-scheme:dark}
+html,body{height:100%;margin:0}
+body{display:flex;flex-direction:column;background:var(--bg);color:var(--ink);font:14px/1.4 var(--f-ui);overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+/* barra delle schede */
+#bar{display:flex;align-items:center;gap:10px;padding:5px max(12px,env(safe-area-inset-right,0px)) 5px max(12px,env(safe-area-inset-left,0px));padding-top:max(5px,env(safe-area-inset-top,0px));background:var(--panel);border-bottom:1px solid var(--line)}
+.brand{background:none;border:0;padding:2px 4px;font-family:var(--f-disp);font-style:italic;font-size:19px;letter-spacing:.2px;white-space:nowrap;border-radius:var(--r)}
+.brand b{font-family:var(--f-code);font-style:normal;font-weight:600;font-size:13px;color:var(--accent);margin-left:2px}
+.tabs{display:flex;gap:2px;padding:2px;background:var(--panel2);border:1px solid var(--line);border-radius:var(--r);overflow-x:auto}
+.tab{display:flex;align-items:center;gap:6px;padding:4px 11px;border:0;border-radius:5px;background:none;color:var(--muted);font-weight:500;white-space:nowrap}
+.tab svg{width:15px;height:15px;flex:none}
+.tab:hover{color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.tab .dot{display:none;width:7px;height:7px;border-radius:50%;background:var(--sel)}
+.tab.ponte .dot{display:inline-block}
+.sp{flex:1}
+.tb{display:flex;align-items:center;justify-content:center;width:32px;height:30px;padding:0;border:1px solid var(--line);border-radius:var(--r);background:var(--panel2)}
+.tb svg{width:16px;height:16px}
+.tb:hover{border-color:var(--muted)}
+
+/* editor: un iframe per ciascuno, caricato la prima volta che serve */
+#frames{flex:1;position:relative;min-height:0}
+#frames iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--bg)}
+#frames iframe.off{visibility:hidden;pointer-events:none}
+#home:not([hidden])+#frames{display:none}
+
+/* pagina iniziale */
+#home{flex:1;overflow:auto;padding:48px 16px;display:flex;flex-direction:column;align-items:center}
+#home h1{margin:0 0 10px;font-family:var(--f-disp);font-style:italic;font-weight:600;font-size:38px}
+#home h1 b{font-family:var(--f-code);font-style:normal;font-size:24px;color:var(--accent);margin-left:4px}
+.lead{max-width:640px;margin:0 0 30px;text-align:center;color:var(--muted);font-size:15px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,280px));gap:16px;width:100%;justify-content:center}
+.card{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:18px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:10px;transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.ci{color:var(--ink)}
+.ci svg{width:48px;height:36px}
+.ct{font-family:var(--f-disp);font-style:italic;font-size:18px}
+.ct b{font-family:var(--f-code);font-style:normal;font-size:13px;color:var(--accent);margin-left:2px}
+.cd{color:var(--muted);font-size:13px}
+.small{margin-top:28px;color:var(--muted);font-size:12.5px;text-align:center}
+
+@media (max-width:760px){
+  .cards{grid-template-columns:minmax(0,1fr)}
+  .brand{font-size:16px}
+  .tab{padding:4px 8px}
+  .tab svg{display:none}
+  #home{padding:28px 16px}
+}

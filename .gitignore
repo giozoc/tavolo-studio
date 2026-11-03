@@ -1,0 +1,6 @@
+.DS_Store
+__pycache__/
+tests/studio.png
+apps/*/tests/ui.png
+apps/*/tests/out/
+apps/*/tests/fuzz_out.json

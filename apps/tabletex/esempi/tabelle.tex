@@ -1,0 +1,126 @@
+% Esempi di Tavolo TableTeX: gli stessi del pulsante «Esempi».
+% Si compilano con pdflatex; aperto nell'editor, il file mostra le sue tabelle in una lista.
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[table]{xcolor}
+\usepackage{booktabs,multirow,siunitx,tabularx,longtable,eurosym}
+
+\begin{document}
+
+\section*{Risultati con booktabs e siunitx}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Tempi di esecuzione (media di 10 prove)}
+  \label{tab:tempi}
+  \begin{tabular}{@{}l S[table-format=3.1] S[table-format=3.1] S[table-format=1.2]@{}}
+    \toprule
+    & \multicolumn{2}{c}{Tempo (\si{\milli\second})} & \\
+    \cmidrule(lr){2-3}
+    Algoritmo & {Medio} & {Peggiore} & {Rapporto} \\
+    \midrule
+    Quicksort  & 12.4  & 98.7  & 0.13 \\ % pivot casuale
+    Mergesort  & 15.1  & 16.0  & 0.94 \\
+    Heapsort   & 21.8  & 23.5  & 0.93 \\
+    Timsort    & 9.6   & 15.2  & 0.63 \\ % implementazione di Python
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section*{Griglia classica}
+
+\begin{tabular}{|l|c|r|}
+  \hline
+  Prodotto & Quantità & Prezzo (\euro) \\
+  \hline
+  Quaderno & 3 & 4,50 \\
+  \hline
+  Penna    & 10 & 12,00 \\
+  \hline
+  Zaino    & 1 & 39,90 \\
+  \hline
+\end{tabular}
+
+\section*{Celle unite}
+
+\begin{tabular}{llcc}
+  \toprule
+  \multirow{2}{*}{Regione} & \multirow{2}{*}{Provincia} & \multicolumn{2}{c}{Popolazione} \\
+  \cmidrule(lr){3-4}
+  & & 2011 & 2021 \\
+  \midrule
+  \multirow{3}{*}{Campania} & Napoli  & 3054956 & 2988376 \\
+                            & Salerno & 1092876 & 1070383 \\
+                            & Caserta & 904921  & 916722  \\
+  \midrule
+  \multirow{2}{*}{Puglia}   & Bari    & 1247303 & 1226784 \\
+                            & Lecce   & 802018  & 779090  \\
+  \bottomrule
+\end{tabular}
+
+\section*{Testo lungo con tabularx}
+
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+  \toprule
+  Termine & Definizione \\
+  \midrule
+  Pivot & Elemento scelto per dividere il vettore in due parti: a sinistra i minori, a destra i maggiori. \\
+  Stabilità & Un ordinamento è stabile se lascia nello stesso ordine gli elementi con chiavi uguali. \\
+  In loco & L'algoritmo usa solo una quantità costante di memoria aggiuntiva. \\
+  \bottomrule
+\end{tabularx}
+
+\section*{Elenco lungo con longtable}
+
+\begin{longtable}{@{}rlr@{}}
+  \caption{Elementi della tavola periodica}\label{tab:elementi} \\
+  \toprule
+  Z & Elemento & Massa (u) \\
+  \midrule
+  \endfirsthead
+  \toprule
+  Z & Elemento & Massa (u) \\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot
+  1 & Idrogeno & 1.008 \\
+  2 & Elio & 4.003 \\
+  3 & Litio & 6.94 \\
+  4 & Berillio & 9.012 \\
+  5 & Boro & 10.81 \\
+  6 & Carbonio & 12.011 \\
+  7 & Azoto & 14.007 \\
+  8 & Ossigeno & 15.999 \\
+\end{longtable}
+
+\section*{Formule nelle celle}
+
+\begin{tabular}{@{}lll@{}}
+  \toprule
+  Funzione & Derivata & Primitiva \\
+  \midrule
+  $x^n$ & $n x^{n-1}$ & $\frac{x^{n+1}}{n+1}$ \\
+  $e^x$ & $e^x$ & $e^x$ \\
+  $\ln x$ & $\frac{1}{x}$ & $x \ln x - x$ \\
+  $\sin x$ & $\cos x$ & $-\cos x$ \\
+  $\cos x$ & $-\sin x$ & $\sin x$ \\
+  \bottomrule
+\end{tabular}
+
+\section*{Colori e intestazione in grassetto}
+
+\begin{tabular}{lcc}
+  \toprule
+  \rowcolor{gray!15}
+  \textbf{Squadra} & \textbf{Punti} & \textbf{Reti} \\
+  \midrule
+  Napoli & 82 & 77 \\
+  \rowcolor{gray!8}
+  Inter & 76 & 71 \\
+  Milan & 70 & 64 \\
+  \bottomrule
+\end{tabular}
+
+\end{document}

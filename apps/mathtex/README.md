@@ -1,17 +1,19 @@
 # Tavolo MathTeX
 
-[![Demo](https://img.shields.io/badge/demo-online-blue)](https://giozoc.github.io/tavolo-mathtex/)
+[![Demo](https://img.shields.io/badge/demo-online-blue)](https://giozoc.github.io/tavolo-studio/#mathtex)
 [![JavaScript](https://img.shields.io/badge/JavaScript-vanilla-blue)](#stack-tecnologico)
 [![LaTeX](https://img.shields.io/badge/LaTeX-amsmath%20%7C%20amssymb-blue)](#funzionalità)
 [![Licenza](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](#licenza)
 
 ![Anteprima di Tavolo MathTeX: il file degli esempi aperto come documento, con la lista delle formule, il codice e la formula sincronizzati](docs/anteprima.png)
 
+> Fa parte di [**Tavolo Studio**](../../README.md), insieme agli altri editor della famiglia: si apre dalla scheda *MathTeX* di <https://giozoc.github.io/tavolo-studio/>, oppure da solo da `apps/mathtex/index.html`.
+
 ---
 
 ## Documentazione
 
-Tavolo MathTeX è un **editor visuale di equazioni matematiche in LaTeX** che funziona interamente nel browser, senza installare nulla e senza backend. È il fratello di [Tavolo TikZ](https://github.com/giozoc/tavolo-tikz): stessa interfaccia a due ante, stessa attenzione al codice sorgente, applicate alle formule.
+Tavolo MathTeX è un **editor visuale di equazioni matematiche in LaTeX** che funziona interamente nel browser, senza installare nulla e senza backend. È il fratello di [Tavolo TikZ](../tikz/README.md): stessa interfaccia a due ante, stessa attenzione al codice sorgente, applicate alle formule.
 
 - **Contenuto del repository**:
 
@@ -146,7 +148,7 @@ Le caselle vuote (`\placeholder{}` in MathLive) non finiscono mai nel sorgente (
 ## Struttura del Repository
 
 ```text
-tavolo-mathtex/
+apps/mathtex/
 ├── index.html              # pagina principale
 ├── css/
 │   └── style.css           # stile e temi, ripresi da Tavolo TikZ
@@ -181,11 +183,11 @@ I file in `js/` sono script classici caricati in ordine da `index.html`, senza m
 
 ## Avvio
 
-**Online**: [giozoc.github.io/tavolo-mathtex](https://giozoc.github.io/tavolo-mathtex/)
+**Online**: [giozoc.github.io/tavolo-studio](<https://giozoc.github.io/tavolo-studio/#mathtex>) (scheda *MathTeX*)
 
 **In locale**:
 
-1. Clona il repository ed entra nella cartella.
+1. Clona il repository di Tavolo Studio ed entra in `apps/mathtex`.
 2. Avvia un server statico e apri il browser su `http://localhost:8000`:
 
 ```bash
@@ -194,7 +196,7 @@ I file in `js/` sono script classici caricati in ordine da `index.html`, senza m
 
    Non servono altri passaggi: i file si caricano così come sono (MathLive e MathJax arrivano dal CDN jsDelivr). Funziona anche aprendo direttamente `index.html`.
 
-3. Per pubblicarlo su GitHub Pages basta attivare Pages sul ramo principale, cartella radice.
+3. Viene pubblicato su GitHub Pages insieme agli altri editor di Tavolo Studio (vedi il [README principale](../../README.md)).
 
 4. Per confrontare con LaTeX, compila gli esempi:
 
@@ -282,7 +284,7 @@ Su Mac, Ctrl corrisponde a Cmd.
 
 ## Ringraziamenti
 
-Interfaccia e impostazione tecnica riprese da [Tavolo TikZ](https://github.com/giozoc/tavolo-tikz). Modifica delle formule con [MathLive](https://github.com/arnog/mathlive) di Arno Gourdol (MIT); anteprima con [MathJax](https://www.mathjax.org/).
+Interfaccia e impostazione tecnica riprese da [Tavolo TikZ](../tikz/README.md). Modifica delle formule con [MathLive](https://github.com/arnog/mathlive) di Arno Gourdol (MIT); anteprima con [MathJax](https://www.mathjax.org/).
 
 ---
 
