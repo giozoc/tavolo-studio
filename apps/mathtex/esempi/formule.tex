@@ -1,0 +1,123 @@
+% Esempi di Tavolo MathTeX: si compilano con  pdflatex formule.tex
+% Ogni formula è identica a quella caricata dal pulsante «Esempi» dell'editor.
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=2.5cm]{geometry}
+\setlength{\parindent}{0pt}
+\begin{document}
+\section*{Esempi di Tavolo MathTeX}
+
+\subsection*{Formula risolutiva}
+\[
+% Soluzioni dell'equazione di secondo grado
+x_{1,2} = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+\]
+
+\subsection*{Integrale di Gauss}
+\[
+\int_{-\infty}^{+\infty} e^{-x^2}\,\mathrm{d}x = \sqrt{\pi}
+\]
+
+\subsection*{Identità di Eulero}
+\[
+e^{i\pi} + 1 = 0
+\]
+
+\subsection*{Serie di Taylor}
+\[
+f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(x_0)}{n!}\,(x - x_0)^n
+\]
+
+\subsection*{Binomio di Newton}
+\[
+(a+b)^n = \sum_{k=0}^{n} \binom{n}{k} a^{n-k} b^{k}
+\]
+
+\subsection*{Sistema lineare}
+\[
+\begin{cases}
+  2x + 3y = 7 \\
+  x - y = 1
+\end{cases}
+\]
+
+\subsection*{Determinante 3×3}
+\[
+\det A =
+\begin{vmatrix}
+  a_{11} & a_{12} & a_{13} \\
+  a_{21} & a_{22} & a_{23} \\
+  a_{31} & a_{32} & a_{33}
+\end{vmatrix}
+\]
+
+\subsection*{Trasformata di Fourier}
+\[
+\hat{f}(\xi) = \int_{-\infty}^{\infty} f(x)\, e^{-2\pi i x \xi}\,\mathrm{d}x
+\]
+
+\subsection*{Equazioni di Maxwell}
+\begin{align*}
+  \nabla \cdot \vec{E} &= \frac{\rho}{\varepsilon_0} % Gauss
+  \\
+  \nabla \cdot \vec{B} &= 0 \\
+  \nabla \times \vec{E} &= -\frac{\partial \vec{B}}{\partial t} % Faraday
+  \\
+  \nabla \times \vec{B} &= \mu_0 \vec{J} + \mu_0 \varepsilon_0 \frac{\partial \vec{E}}{\partial t}
+\end{align*}
+
+\subsection*{Teorema di Bayes}
+\[
+P(A \mid B) = \frac{P(B \mid A)\, P(A)}{P(B)}
+\]
+
+\subsection*{Definizione di limite}
+\[
+\lim_{x \to x_0} f(x) = \ell \iff \forall \varepsilon > 0\; \exists \delta > 0 : 0 < |x - x_0| < \delta \implies |f(x) - \ell| < \varepsilon
+\]
+
+\subsection*{Frazione continua}
+\[
+\sqrt{2} = 1 + \cfrac{1}{2 + \cfrac{1}{2 + \cfrac{1}{2 + \cdots}}}
+\]
+
+\subsection*{Formula di Stirling}
+\[
+n! \sim \sqrt{2\pi n}\left(\frac{n}{e}\right)^{n}
+\]
+
+\subsection*{Equazione di Schrödinger}
+\begin{equation}
+  i\hbar \frac{\partial}{\partial t} \Psi(\mathbf{r},t) = \left[ -\frac{\hbar^2}{2m}\nabla^2 + V(\mathbf{r},t) \right] \Psi(\mathbf{r},t)
+\end{equation}
+
+\subsection*{Funzione a tratti}
+\[
+|x| =
+\begin{cases}
+  x  & \text{se } x \geq 0 \\
+  -x & \text{se } x < 0
+\end{cases}
+\]
+
+\subsection*{Disuguaglianza di Cauchy--Schwarz}
+\[
+\left( \sum_{k=1}^{n} a_k b_k \right)^{2} \leq \left( \sum_{k=1}^{n} a_k^2 \right) \left( \sum_{k=1}^{n} b_k^2 \right)
+\]
+
+\subsection*{Prodotto di matrici}
+\[
+\begin{pmatrix} a & b \\ c & d \end{pmatrix}
+\begin{pmatrix} x \\ y \end{pmatrix}
+=
+\begin{pmatrix} ax + by \\ cx + dy \end{pmatrix}
+\]
+
+\subsection*{Teorema fondamentale}
+\[
+\int_{a}^{b} f'(x)\,\mathrm{d}x = f(b) - f(a)
+\]
+
+\end{document}

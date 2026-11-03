@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tavolo MathTeX</title>
+<meta name="description" content="Editor visuale di equazioni LaTeX: scrivi il codice o modifica la formula direttamente, e le due viste restano sincronizzate.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Schibsted+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,600&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<script>window.MathJax={tex:{packages:{'[+]':[]}},svg:{fontCache:'none'},startup:{typeset:false,ready(){MathJax.startup.defaultReady();MathJax.startup.promise.then(()=>{window.__mjReady=true;window.__onMJ&&window.__onMJ()})}}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" async></script>
+<script src="https://cdn.jsdelivr.net/npm/mathlive@0.111.1/mathlive.min.js"></script>
+</head>
+<body>
+<script>/* il percorso dei font va indicato: MathLive lo ricaverebbe male da un URL con il nome del file */ MathfieldElement.fontsDirectory='https://cdn.jsdelivr.net/npm/mathlive@0.111.1/fonts'; MathfieldElement.soundsDirectory=null;</script>
+<div id="app">
+<header id="top">
+  <div class="brand">Tavolo <b>MathTeX</b></div>
+  <div class="grp">
+    <button class="tb" id="b-undo" title="Annulla (Ctrl+Z)" aria-label="Annulla"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 3L2 6l3 3M2 6h8a4 4 0 010 8H6"/></svg></button>
+    <button class="tb" id="b-redo" title="Ripeti (Ctrl+Y o Ctrl+Maiusc+Z)" aria-label="Ripeti"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 3l3 3-3 3M14 6H6a4 4 0 000 8h4"/></svg></button>
+  </div>
+  <div class="grp">
+    <button class="tb" id="b-clear" title="Cancella la formula (si può ripristinare)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4.5h10M6.5 4.5V3h3v1.5M4.5 4.5l.7 9h5.6l.7-9"/></svg><span class="lbl">Cancella</span></button>
+    <button class="tb" id="b-restore" title="Ripristina il contenuto cancellato" disabled><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 8a5.5 5.5 0 105.5-5.5c-1.8 0-3.3.8-4.3 2M3.5 1.8v3h3"/></svg><span class="lbl">Ripristina</span></button>
+  </div>
+  <div class="sp"></div>
+  <div class="grp">
+    <button class="tb" id="b-open" title="Apri file .tex"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4h4l1.5 1.5H14V13H2z"/></svg><span class="lbl">Apri</span></button>
+    <button class="tb" id="b-mac" title="Macro personali: \newcommand e \DeclareMathOperator del preambolo"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5.5 3.5C4 3.5 4 4.5 4 6s-1 2-1.5 2C3 8 4 8.5 4 10s0 2.5 1.5 2.5M10.5 3.5c1.5 0 1.5 1 1.5 2.5s1 2 1.5 2c-.5 0-1.5.5-1.5 2s0 2.5-1.5 2.5"/></svg><span class="lbl">Macro</span></button>
+    <button class="tb" id="b-ex" title="Esempi"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 2h10v12H3zM6 5h4M6 8h4M6 11h2"/></svg><span class="lbl">Esempi</span></button>
+    <button class="tb" id="b-export" title="Esporta LaTeX, documento .tex, SVG, PNG, MathML"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8M5 7l3 3 3-3M3 12v2h10v-2"/></svg><span class="lbl">Esporta</span></button>
+    <button class="tb" id="b-help" title="Scorciatoie da tastiera (F1)" aria-label="Scorciatoie"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1.5" y="4" width="13" height="8" rx="1.5"/><path d="M4 7h1M7 7h2M11 7h1M5 9.5h6"/></svg></button>
+    <button class="tb" id="b-theme" title="Tema chiaro/scuro" aria-label="Tema chiaro o scuro"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.5"/><path d="M8 2.5v11A5.5 5.5 0 018 2.5z" fill="currentColor"/></svg></button>
+  </div>
+  <button class="tb pri" id="b-copy" title="Copia il codice LaTeX (Ctrl+Maiusc+C)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="8.5" height="9" rx="1.2"/><path d="M3 11V2.5h7.5"/></svg><span class="lbl">Copia LaTeX</span></button>
+  <input type="file" id="file" accept=".tex,.txt,.ltx" hidden>
+</header>
+
+<nav id="ribbon" aria-label="Strumenti per le equazioni">
+  <div class="rsec" id="r-tools">
+    <div class="rbody">
+      <div class="rcol">
+        <button class="rsm" id="b-text" title="Testo normale dentro la formula: \text{…} (Alt+T)"><span class="ric">Aa</span>Testo</button>
+        <button class="rsm" data-pop="spaces" title="Spazi matematici: \, \; \quad …"><span class="ric">⎵</span>Spazi <i class="dd"></i></button>
+        <button class="rsm" data-pop="fonts" title="Stili di carattere: \mathbb, \mathcal, \mathbf …"><span class="ric">𝔸</span>Caratteri <i class="dd"></i></button>
+      </div>
+      <div class="rcol">
+        <label class="rlab" for="envsel">Ambiente</label>
+        <select class="tb" id="envsel" title="Delimitatori della formula nel sorgente">
+          <option value="">nessuno</option>
+          <option value="$">$ … $</option>
+          <option value="\[">\[ … \]</option>
+          <option value="equation">equation</option>
+          <option value="equation*">equation*</option>
+          <option value="align*">align*</option>
+          <option value="gather*">gather*</option>
+        </select>
+        <label class="rlab" for="stylesel">Vista</label>
+        <select class="tb" id="stylesel" title="Come mostrare la formula a destra (non cambia il sorgente)">
+          <option value="display">display</option>
+          <option value="inline">in linea</option>
+        </select>
+      </div>
+    </div>
+    <div class="rname">Strumenti</div>
+  </div>
+  <div class="rsec" id="r-sym">
+    <div class="rbody">
+      <div class="symwrap">
+        <div class="symtop">
+          <select class="tb" id="symcat" title="Categoria di simboli" aria-label="Categoria di simboli"></select>
+          <button class="rsm mini" id="b-symmore" title="Mostra tutta la categoria" aria-label="Mostra tutti i simboli della categoria"><i class="dd"></i></button>
+        </div>
+        <div id="symgrid" role="listbox" aria-label="Simboli"></div>
+      </div>
+    </div>
+    <div class="rname">Simboli</div>
+  </div>
+  <div class="rsec" id="r-struct">
+    <div class="rbody" id="structs"></div>
+    <div class="rname">Strutture</div>
+  </div>
+</nav>
+
+<div id="main">
+  <aside id="flist" hidden aria-label="Formule del file">
+    <div class="pane-h"><span>Formule</span><span class="tag" id="fl-n"></span><span class="sp"></span><span id="fl-mod"></span></div>
+    <div id="fl-items"></div>
+    <div class="fl-foot"><span id="fl-name"></span>
+      <button class="pbtn" id="fl-save" title="Scarica il file con le formule aggiornate (Ctrl+S)">Scarica</button>
+      <button class="pbtn" id="fl-close" title="Chiudi il documento e lascia la formula nell'editor" aria-label="Chiudi il documento">×</button></div>
+  </aside>
+  <section id="left" aria-label="Sorgente LaTeX">
+    <div class="pane-h"><span>Sorgente LaTeX</span><span class="sp"></span><span id="pos">r 1, c 1</span>
+      <button class="pbtn" id="b-copy2" title="Copia il sorgente così com'è">Copia</button></div>
+    <div id="edwrap">
+      <div id="gut"></div>
+      <pre id="hl" aria-hidden="true"></pre>
+      <textarea id="ed" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Codice LaTeX della formula"></textarea>
+      <div id="ac" hidden></div>
+    </div>
+    <div id="msgs" aria-live="polite"></div>
+  </section>
+  <div id="split" aria-hidden="true"></div>
+  <section id="right" aria-label="Formula">
+    <div id="desk">
+      <div id="sheet">
+        <div class="sheet-h"><span>Formula</span><span class="sp"></span><span id="mfinfo">clic sulla formula per modificarla</span></div>
+        <div id="mfbox"><math-field id="mf" aria-label="Formula modificabile"></math-field></div>
+        <div id="pvbox">
+          <div class="sheet-h"><span>Anteprima LaTeX</span><span class="tag">MathJax</span><span class="sp"></span><span id="pvst"></span></div>
+          <div id="pv"></div>
+        </div>
+      </div>
+    </div>
+    <div id="hint"></div>
+    <div id="status"><span id="st-sync">sincronizzato</span><span id="st-msg" class="ok">pronto</span></div>
+    <div id="zoomctl" class="grp">
+      <button class="tb" id="b-pv" title="Mostra o nascondi l'anteprima MathJax">Anteprima</button>
+      <button class="tb" id="b-zout" title="Riduci" aria-label="Riduci">−</button>
+      <button class="tb" id="b-zfit" title="Dimensione predefinita"><span id="zlab">100%</span></button>
+      <button class="tb" id="b-zin" title="Ingrandisci" aria-label="Ingrandisci">+</button>
+    </div>
+  </section>
+</div>
+</div>
+<div id="pop" hidden role="dialog"></div>
+<div id="modal" hidden><div class="box"><h2><span id="m-t"></span><button class="btn" id="m-x">Chiudi</button></h2><div class="bd" id="m-b"></div></div></div>
+<div id="toast"></div>
+<div id="drop" hidden>Rilascia il file .tex per aprirlo</div>
+<script src="js/01-core.js"></script>
+<script src="js/02-latex.js"></script>
+<script src="js/03-sync.js"></script>
+<script src="js/04-editor.js"></script>
+<script src="js/05-mathfield.js"></script>
+<script src="js/06-catalog.js"></script>
+<script src="js/07-ribbon.js"></script>
+<script src="js/08-preview.js"></script>
+<script src="js/09-document.js"></script>
+<script src="js/10-panel.js"></script>
+</body>
+</html>
